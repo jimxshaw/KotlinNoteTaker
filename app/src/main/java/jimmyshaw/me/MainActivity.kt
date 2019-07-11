@@ -52,12 +52,6 @@ class MainActivity : AppCompatActivity() {
     }
   }
 
-  private fun moveNext() {
-    ++notePosition
-    displayNote()
-    invalidateOptionsMenu()
-  }
-
   override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
     if (notePosition >= DataManager.notes.lastIndex) {
       val menuItem = menu?.findItem(R.id.action_next)
@@ -69,6 +63,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     return super.onPrepareOptionsMenu(menu)
+  }
+
+  override fun onPause() {
+    super.onPause()
+    saveNote()
+  }
+
+  private fun saveNote() {
+    val note = DataManager.notes[notePosition]
+    note.title = textNoteTitle.text.toString()
+    note.text = textNoteText.text.toString()
+    note.course = spinnerCourses.selectedItem as CourseInfo
+
+  }
+
+  private fun moveNext() {
+    ++notePosition
+    displayNote()
+    invalidateOptionsMenu()
   }
 
   private fun displayNote() {
