@@ -1,6 +1,7 @@
 package jimmyshaw.me
 
 import android.os.Bundle
+import android.provider.ContactsContract
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
@@ -29,7 +30,14 @@ class MainActivity : AppCompatActivity() {
 
     notePosition = intent.getIntExtra(EXTRA_NOTE_POSITION, POSITION_NOT_SET)
 
-    if (notePosition != POSITION_NOT_SET) displayNote()
+    if (notePosition != POSITION_NOT_SET) {
+      displayNote()
+    }
+    else {
+      DataManager.notes.add(NoteInfo())
+      notePosition = DataManager.notes.lastIndex
+    }
+
   }
 
   override fun onCreateOptionsMenu(menu: Menu): Boolean {
