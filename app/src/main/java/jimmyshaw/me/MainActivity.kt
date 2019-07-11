@@ -1,8 +1,6 @@
 package jimmyshaw.me
 
 import android.os.Bundle
-import android.provider.ContactsContract
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
@@ -17,6 +15,7 @@ class MainActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+
     setContentView(R.layout.activity_main)
     setSupportActionBar(toolbar)
 
@@ -28,7 +27,8 @@ class MainActivity : AppCompatActivity() {
 
     spinnerCourses.adapter = adapterCourses
 
-    notePosition = intent.getIntExtra(EXTRA_NOTE_POSITION, POSITION_NOT_SET)
+    notePosition = savedInstanceState?.getInt(NOTE_POSITION, POSITION_NOT_SET) ?:
+      intent.getIntExtra(NOTE_POSITION, POSITION_NOT_SET)
 
     if (notePosition != POSITION_NOT_SET) {
       displayNote()
@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
   override fun onCreateOptionsMenu(menu: Menu): Boolean {
     // Inflate the menu; this adds items to the action bar if it is present.
     menuInflater.inflate(R.menu.menu_main, menu)
+
     return true
   }
 
@@ -73,13 +74,21 @@ class MainActivity : AppCompatActivity() {
     return super.onPrepareOptionsMenu(menu)
   }
 
+  override fun onSaveInstanceState(outState: Bundle?) {
+    super.onSaveInstanceState(outState)
+
+    outState?.putInt(NOTE_POSITION, notePosition)
+  }
+
   override fun onPause() {
     super.onPause()
+
     saveNote()
   }
 
   private fun saveNote() {
     val note = DataManager.notes[notePosition]
+
     note.title = textNoteTitle.text.toString()
     note.text = textNoteText.text.toString()
     note.course = spinnerCourses.selectedItem as CourseInfo
