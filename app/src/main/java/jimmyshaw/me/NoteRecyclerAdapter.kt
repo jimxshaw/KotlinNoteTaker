@@ -18,9 +18,9 @@ class NoteRecyclerAdapter(private val context: Context, private val notes: List<
         return ViewHolder(itemView)
     }
 
-    override fun getItemCount(): Int {
-        return notes.size
-    }
+    // This method is using shorthand notation.
+    // It simply returns the size, which is an Int.
+    override fun getItemCount() = notes.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val note = notes[position]
