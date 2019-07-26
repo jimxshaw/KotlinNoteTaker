@@ -32,5 +32,20 @@ object DataManager {
 
     note = NoteInfo(courses.getValue("java_core"), "Compilation", "Java code compiles down to bytecode")
     notes.add(note)
+
+    note = NoteInfo(courses.getValue("android_async"), "Async", "This is preferred")
+    notes.add(note)
+
+    note = NoteInfo(courses.getValue("android_intents"), "Explicit", "Use explicit more often")
+    notes.add(note)
+
+    note = NoteInfo(courses.getValue("java_lang"), "ArrayLists", "Content is adjustable")
+    notes.add(note)
+
+    note = NoteInfo(courses.getValue("java_core"), "JVM", "Java Virtual Machine")
+    notes.add(note)
+
+    note = NoteInfo(courses.getValue("java_lang"), "Primitive Types", "Int is primitive")
+    notes.add(note)
   }
 }
