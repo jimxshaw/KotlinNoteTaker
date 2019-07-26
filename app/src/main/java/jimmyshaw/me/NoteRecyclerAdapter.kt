@@ -1,6 +1,7 @@
 package jimmyshaw.me
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,10 +28,21 @@ class NoteRecyclerAdapter(private val context: Context, private val notes: List<
 
         holder.textCourse?.text = note.course?.title
         holder.textTitle?.text = note.title
+        holder.notePosition = position
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textCourse = itemView.findViewById<TextView?>(R.id.textCourse)
         val textTitle = itemView.findViewById<TextView?>(R.id.textTitle)
+        var notePosition = 0
+
+        init {
+            itemView?.setOnClickListener {
+                val intent = Intent(context, NoteActivity::class.java)
+                intent.putExtra(NOTE_POSITION, notePosition)
+
+                context.startActivity(intent)
+            }
+        }
     }
 }
