@@ -17,6 +17,14 @@ import kotlinx.android.synthetic.main.content_items.*
 
 class ItemsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    private val noteLayoutManager by lazy {
+        LinearLayoutManager(this)
+    }
+
+    // This instance isn't created until I actually use the property.
+    private val noteRecyclerAdapter by lazy {
+        NoteRecyclerAdapter(this, DataManager.notes)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +38,8 @@ class ItemsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             startActivity(Intent(this, NoteActivity::class.java))
         }
 
-        listItems.layoutManager = LinearLayoutManager(this)
-        listItems.adapter = NoteRecyclerAdapter(this, DataManager.notes)
+        listItems.layoutManager = noteLayoutManager
+        listItems.adapter = noteRecyclerAdapter
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
