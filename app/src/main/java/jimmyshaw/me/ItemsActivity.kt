@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_items.*
 import kotlinx.android.synthetic.main.content_items.*
 
 class ItemsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -28,7 +29,9 @@ class ItemsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_items)
+
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -38,8 +41,7 @@ class ItemsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             startActivity(Intent(this, NoteActivity::class.java))
         }
 
-        listItems.layoutManager = noteLayoutManager
-        listItems.adapter = noteRecyclerAdapter
+        displayNotes()
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -73,6 +75,7 @@ class ItemsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.items, menu)
+
         return true
     }
 
@@ -90,7 +93,7 @@ class ItemsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.nav_notes -> {
-                handleSelection("Notes")
+                displayNotes()
             }
             R.id.nav_courses -> {
                 handleSelection("Courses")
@@ -102,9 +105,18 @@ class ItemsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                 handleSelection("Send")
             }
         }
+
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
+
         return true
+    }
+
+    private fun displayNotes() {
+        listItems.layoutManager = noteLayoutManager
+        listItems.adapter = noteRecyclerAdapter
+
+        nav_view.menu.findItem(R.id.nav_notes).isChecked = true
     }
 
     private fun handleSelection(message: String) {
