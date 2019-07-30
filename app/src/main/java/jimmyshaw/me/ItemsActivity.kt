@@ -86,12 +86,6 @@ class ItemsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             R.id.nav_courses -> {
 
             }
-            R.id.nav_slideshow -> {
-
-            }
-            R.id.nav_tools -> {
-
-            }
             R.id.nav_share -> {
 
             }
