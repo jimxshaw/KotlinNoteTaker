@@ -11,8 +11,10 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.jwhh.notekeeper.CourseRecyclerAdapter
 import kotlinx.android.synthetic.main.activity_items.*
 import kotlinx.android.synthetic.main.content_items.*
 
@@ -22,9 +24,17 @@ class ItemsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         LinearLayoutManager(this)
     }
 
+    private val courseLayoutManager by lazy {
+        GridLayoutManager(this, 2)
+    }
+
     // This instance isn't created until I actually use the property.
     private val noteRecyclerAdapter by lazy {
         NoteRecyclerAdapter(this, DataManager.notes)
+    }
+
+    private val courseRecyclerAdapter by lazy {
+        CourseRecyclerAdapter(this, DataManager.courses.values.toList())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,7 +106,7 @@ class ItemsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                 displayNotes()
             }
             R.id.nav_courses -> {
-                handleSelection("Courses")
+                displayCourses()
             }
             R.id.nav_share -> {
                 handleSelection("Share")
@@ -117,6 +127,13 @@ class ItemsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         listItems.adapter = noteRecyclerAdapter
 
         nav_view.menu.findItem(R.id.nav_notes).isChecked = true
+    }
+
+    private fun displayCourses() {
+        listItems.layoutManager = courseLayoutManager
+        listItems.adapter = courseRecyclerAdapter
+
+        nav_view.menu.findItem(R.id.nav_courses).isChecked = true
     }
 
     private fun handleSelection(message: String) {
