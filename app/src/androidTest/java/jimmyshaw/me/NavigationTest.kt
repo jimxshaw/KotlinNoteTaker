@@ -2,6 +2,7 @@ package jimmyshaw.me
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import org.junit.Assert.*
@@ -11,8 +12,9 @@ import org.junit.runner.RunWith
 import androidx.test.espresso.contrib.DrawerActions
 import androidx.test.espresso.contrib.NavigationViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import com.jwhh.notekeeper.CourseRecyclerAdapter
+import org.hamcrest.CoreMatchers.containsString
 
 @RunWith(AndroidJUnit4::class)
 class NavigationTest {
@@ -36,5 +38,11 @@ class NavigationTest {
         val notePosition = 0
         onView(withId(R.id.listItems)).perform(
             RecyclerViewActions.actionOnItemAtPosition<NoteRecyclerAdapter.ViewHolder>(notePosition, click()))
+
+        val note = DataManager.notes[notePosition]
+        onView(withId(R.id.spinnerCourses)).check(matches(withSpinnerText(containsString(note.course?.title))))
+        onView(withId(R.id.textNoteTitle)).check(matches(withText(containsString(note.title))))
+        onView(withId(R.id.textNoteText)).check(matches(withText(containsString(note.text))))
+
     }
 }
